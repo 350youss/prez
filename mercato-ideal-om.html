@@ -661,22 +661,44 @@ function renderKPI(){
 }
 function fmt1(n){ return Math.round(n*10)/10; }
 
-/* estimation prospective — résultat réel de l'été + plus-value sur les départs choisis dans ce mercato idéal */
+/* compte de résultat réel OM (source club, capture 2026-08) — postes fixes / à ne pas modifier sauf dit autrement */
+const NET_RESULT_BASE={
+  droitsTV:40, sponsor:71.712, recettesMatch:40, autresProduits:60,
+  indemniteAgents:10, autresCharges:103.714,
+  resultatFinancier:-2.890, resultatExceptionnel:-1.657, impotSociete:-1.425,
+};
+/* résultat net estimé = compte de résultat réel, avec masse salariale/amortissement/résultat de mutation
+   recalculés en direct depuis squad-cost.html selon les départs choisis dans ce mercato idéal — seul le résultat net est affiché */
 function renderProjection(){
   const departed=SQUAD.filter(p=>p.cat==='out');
-  let cgFantasy=0,unknownCount=0;
+  let wageOut=0,amortOut=0,cgFantasy=0,unknownCount=0;
   departed.forEach(p=>{
     const fin=FIN_IMPACT[p.n];
-    if(fin) cgFantasy+=fin.cg; else unknownCount++;
+    if(fin){ wageOut+=fin.wage; amortOut+=fin.amort; cgFantasy+=fin.cg; }
+    else unknownCount++;
   });
-  const estNet=FIN_BASE.resultatTradingEte+cgFantasy;
-  document.getElementById('projNet').dataset.target=estNet;
+  const ms=Math.max(0,FIN_BASE.wageTotal-wageOut);
+  const amort=FIN_BASE.amortTotal-amortOut;
+  const produits=NET_RESULT_BASE.droitsTV+NET_RESULT_BASE.sponsor+NET_RESULT_BASE.recettesMatch+NET_RESULT_BASE.autresProduits;
+  const charges=ms+amort+NET_RESULT_BASE.indemniteAgents+NET_RESULT_BASE.autresCharges;
+  const resHorsMutation=produits-charges;
+  const resMutation=FIN_BASE.resultatTradingEte+cgFantasy;
+  const resAvantImpot=resHorsMutation+resMutation+NET_RESULT_BASE.resultatFinancier+NET_RESULT_BASE.resultatExceptionnel;
+  const resNet=resAvantImpot+NET_RESULT_BASE.impotSociete;
+
+  document.getElementById('projNet').dataset.target=resNet;
   document.getElementById('projDetail').innerHTML=`
-    <div class="dh">Composition</div>
-    <div class="drow"><span>Résultat déjà réalisé (ventes de l'été)</span><span class="val">${fmt1(FIN_BASE.resultatTradingEte)} M€</span></div>
-    <div class="drow"><span>Plus-value estimée sur tes départs choisis</span><span class="val">${cgFantasy>=0?'+':''}${fmt1(cgFantasy)} M€</span></div>
-    <div class="drow main"><span>Résultat net estimé</span><span class="val">${fmt1(estNet)} M€</span></div>
-    ${unknownCount?`<div class="drow empty" style="font-size:10px">${unknownCount} départ(s) sans donnée financière (réserve) non compté(s)</div>`:''}`;
+    <div class="dh">Composition (compte de résultat)</div>
+    <div class="drow"><span>Total produits (fixe)</span><span class="val">${fmt1(produits)} M€</span></div>
+    <div class="drow"><span>Masse salariale (squad-cost.html)</span><span class="val">${fmt1(ms)} M€</span></div>
+    <div class="drow"><span>Amortissements (squad-cost.html)</span><span class="val">${fmt1(amort)} M€</span></div>
+    <div class="drow"><span>Indemnités agents (fixe)</span><span class="val">${fmt1(NET_RESULT_BASE.indemniteAgents)} M€</span></div>
+    <div class="drow"><span>Autres charges (fixe)</span><span class="val">${fmt1(NET_RESULT_BASE.autresCharges)} M€</span></div>
+    <div class="drow main"><span>Résultat hors mutation</span><span class="val">${fmt1(resHorsMutation)} M€</span></div>
+    <div class="drow"><span>Résultat des opérations de mutation</span><span class="val">${fmt1(resMutation)} M€</span></div>
+    <div class="drow"><span>Financier + exceptionnel + impôt (fixe)</span><span class="val">${fmt1(NET_RESULT_BASE.resultatFinancier+NET_RESULT_BASE.resultatExceptionnel+NET_RESULT_BASE.impotSociete)} M€</span></div>
+    <div class="drow main"><span>Résultat net estimé</span><span class="val">${fmt1(resNet)} M€</span></div>
+    ${unknownCount?`<div class="drow empty" style="font-size:10px">${unknownCount} départ(s) sans donnée financière non compté(s)</div>`:''}`;
 }
 
 /* ---- bilan dynamique ---- */
