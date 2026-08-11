@@ -690,13 +690,12 @@ function renderProjection(){
   document.getElementById('projDetail').innerHTML=`
     <div class="dh">Composition (compte de résultat)</div>
     <div class="drow"><span>Total produits (fixe)</span><span class="val">${fmt1(produits)} M€</span></div>
-    <div class="drow"><span>Masse salariale (squad-cost.html)</span><span class="val">${fmt1(ms)} M€</span></div>
-    <div class="drow"><span>Amortissements (squad-cost.html)</span><span class="val">${fmt1(amort)} M€</span></div>
+    <div class="drow"><span>Masse salariale</span><span class="val">${fmt1(ms)} M€</span></div>
+    <div class="drow"><span>Amortissements</span><span class="val">${fmt1(amort)} M€</span></div>
     <div class="drow"><span>Indemnités agents (fixe)</span><span class="val">${fmt1(NET_RESULT_BASE.indemniteAgents)} M€</span></div>
     <div class="drow"><span>Autres charges (fixe)</span><span class="val">${fmt1(NET_RESULT_BASE.autresCharges)} M€</span></div>
     <div class="drow main"><span>Résultat hors mutation</span><span class="val">${fmt1(resHorsMutation)} M€</span></div>
     <div class="drow"><span>Résultat des opérations de mutation</span><span class="val">${fmt1(resMutation)} M€</span></div>
-    <div class="drow"><span>Financier + exceptionnel + impôt (fixe)</span><span class="val">${fmt1(NET_RESULT_BASE.resultatFinancier+NET_RESULT_BASE.resultatExceptionnel+NET_RESULT_BASE.impotSociete)} M€</span></div>
     <div class="drow main"><span>Résultat net estimé</span><span class="val">${fmt1(resNet)} M€</span></div>
     ${unknownCount?`<div class="drow empty" style="font-size:10px">${unknownCount} départ(s) sans donnée financière non compté(s)</div>`:''}`;
 }
