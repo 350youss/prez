@@ -442,6 +442,14 @@ const DEPARTS_CHOISIS={
 /* prix pré-rempli mais catégorie laissée à "pool" : le user place lui-même les joueurs dans "Je vends" en direct */
 SQUAD.forEach(p=>{ if(DEPARTS_CHOISIS[p.n]){ p.fee=DEPARTS_CHOISIS[p.n]; } });
 
+/* ventes déjà réalisées cet été (source : Transfermarkt / data/squad_cost.json "players", direction out, type paid) — total 51,4 M€, identique au sales_total de squad-cost.html */
+const REAL_SALES=[
+  {n:'Mason Greenwood',p:'ATT',club:'Fenerbahçe',fee:'23.4 M€'},
+  {n:'Facundo Medina',p:'DEF',club:'—',fee:'23 M€'},
+  {n:'Gerónimo Rulli',p:'GK',club:'—',fee:'3.5 M€'},
+  {n:'Pierre-Emerick Aubameyang',p:'ATT',club:'Dep. La Corogne',fee:'1.5 M€'},
+];
+
 /* arrivées réelles déjà réalisées cet été (source : Transfermarkt / data/squad_cost.json "players", direction in) — à compléter avec les vrais choix du user quand il les donnera */
 const ARRIVALS=[
   {n:'Facundo Medina',p:'DEF',club:'RC Lens',fee:'18 M€',why:'Arrivée éclair, revendu dans la foulée'},
@@ -673,17 +681,18 @@ function renderProjection(){
 
 /* ---- bilan dynamique ---- */
 function calcBilan(){
-  const vendu=SQUAD.filter(p=>p.cat==='out').reduce((s,p)=>s+parseFee(p.fee),0);
+  const venduFantasy=SQUAD.filter(p=>p.cat==='out').reduce((s,p)=>s+parseFee(p.fee),0);
+  const venduReel=REAL_SALES.reduce((s,p)=>s+parseFee(p.fee),0);
   const depense=ARRIVALS.reduce((s,p)=>s+parseFee(p.fee),0);
-  return {vendu,depense,solde:vendu-depense};
+  return {vendu:venduFantasy+venduReel,depense,solde:venduFantasy+venduReel-depense};
 }
 function renderBilanDetail(){
   const outs=SQUAD.filter(p=>p.cat==='out');
-  document.getElementById('bilanOutList').innerHTML = outs.length
-    ? outs.map(p=>`<div class="drow"><span>${p.n}</span><span class="val">${p.fee||'—'}</span></div>`).join('')
-    : '<div class="drow empty">aucun</div>';
+  const rows=REAL_SALES.map(p=>`<div class="drow"><span>${p.n} <span style="color:var(--muted);font-size:9.5px">réel</span></span><span class="val">${p.fee}</span></div>`)
+    .concat(outs.map(p=>`<div class="drow"><span>${p.n}</span><span class="val">${p.fee||'—'}</span></div>`));
+  document.getElementById('bilanOutList').innerHTML = rows.length ? rows.join('') : '<div class="drow empty">aucun</div>';
   document.getElementById('bilanInList').innerHTML = ARRIVALS.length
-    ? ARRIVALS.map(p=>`<div class="drow"><span>${p.n}</span><span class="val">${p.fee||'—'}</span></div>`).join('')
+    ? ARRIVALS.map(p=>`<div class="drow"><span>${p.n} <span style="color:var(--muted);font-size:9.5px">réel</span></span><span class="val">${p.fee||'—'}</span></div>`).join('')
     : '<div class="drow empty">aucune</div>';
 }
 function animateCount(el){
