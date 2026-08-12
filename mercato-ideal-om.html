@@ -454,17 +454,15 @@ const REAL_SALES=[
   {n:'Pierre-Emerick Aubameyang',p:'ATT',club:'Dep. La Corogne',fee:'1.5 M€'},
 ];
 
-/* arrivées : réelles déjà réalisées cet été (source Transfermarkt / squad_cost.json) + recrues du mercato idéal (choix du user, 2026-08-12)
+/* arrivées : uniquement les recrues du mercato idéal (choix du user, 2026-08-12 — les vraies arrivées de l'été retirées, il s'en fout)
    wage/years présents = compté dans la masse salariale/amortissement de "Pour aller plus loin" ; prêt (years=0) = pas d'amortissement, que le salaire */
 const ARRIVALS=[
-  {n:'Facundo Medina',p:'DEF',club:'RC Lens',fee:'18 M€',why:'Arrivée éclair, revendu dans la foulée',real:true},
-  {n:'Timothy Weah',p:'ATT',club:'Juventus',fee:'14.4 M€',why:'Retour de Juventus',pic:'photos/om/timothy-weah.jpg',real:true},
-  {n:'Hamed Traoré',p:'MIL',club:'Bournemouth',fee:'7.7 M€',why:'Prêté à Genoa aussitôt arrivé',real:true},
   {n:'Bulka',p:'INC',club:'Prêt',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — prêt sec'},
   {n:'Défenseur inconnu',p:'DEF',club:'—',fee:'3 M€',wage:2,years:4,why:'Transfert ferme sur 4 ans'},
   {n:'Bakwa',p:'INC',club:'Prêt',fee:'Prêt',wage:4.5,years:0,why:'Poste à confirmer — prêt sec'},
   {n:'Meïté (recrue)',p:'INC',club:'Prêt + option 20 M€',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — option d\'achat non levée'},
   {n:'S. Coulibaly',p:'INC',club:'Prêt',fee:'Prêt',wage:1.5,years:0,why:'Poste à confirmer — prêt sec'},
+  {n:'Pape Diop',p:'INC',club:'—',fee:'8 M€',wage:1.5,years:0,why:'Poste à confirmer — durée de contrat à préciser (amortissement non compté)'},
 ];
 function fantasyRecruitsImpact(){
   let wage=0, amort=0;
