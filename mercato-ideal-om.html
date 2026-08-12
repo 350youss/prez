@@ -140,6 +140,7 @@ body::after{
 .pos-def{background:rgba(91,143,239,.22);color:var(--def);}
 .pos-mil{background:rgba(51,192,122,.22);color:var(--mid);}
 .pos-att{background:rgba(240,112,95,.22);color:var(--att);}
+.pos-inc{background:rgba(255,255,255,.1);color:var(--sub);}
 .pcard-status{position:absolute;top:9px;right:9px;z-index:2;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;
   padding:3px 8px;border-radius:20px;text-transform:uppercase;}
 .st-out{background:rgba(240,77,104,.22);color:var(--out);}
@@ -453,25 +454,21 @@ const REAL_SALES=[
   {n:'Pierre-Emerick Aubameyang',p:'ATT',club:'Dep. La Corogne',fee:'1.5 M€'},
 ];
 
-/* arrivées réelles déjà réalisées cet été (source : Transfermarkt / data/squad_cost.json "players", direction in) — à compléter avec les vrais choix du user quand il les donnera */
+/* arrivées : réelles déjà réalisées cet été (source Transfermarkt / squad_cost.json) + recrues du mercato idéal (choix du user, 2026-08-12)
+   wage/years présents = compté dans la masse salariale/amortissement de "Pour aller plus loin" ; prêt (years=0) = pas d'amortissement, que le salaire */
 const ARRIVALS=[
-  {n:'Facundo Medina',p:'DEF',club:'RC Lens',fee:'18 M€',why:'Arrivée éclair, revendu dans la foulée'},
-  {n:'Timothy Weah',p:'ATT',club:'Juventus',fee:'14.4 M€',why:'Retour de Juventus',pic:'photos/om/timothy-weah.jpg'},
-  {n:'Hamed Traoré',p:'MIL',club:'Bournemouth',fee:'7.7 M€',why:'Prêté à Genoa aussitôt arrivé'},
-];
-
-/* recrues envisagées pour le mercato idéal (hypothèses financières du user, discutées en chat le 2026-08-12) —
-   prêt sec = pas d'amortissement, seul le salaire compte ; prêt + option d'achat non levée = pareil ; Gourna retiré (parti ailleurs) */
-const FANTASY_RECRUITS=[
-  {n:'Bulka', wage:3, fee:0, years:0, note:'prêt sec'},
-  {n:'Défenseur inconnu', wage:2, fee:3, years:4, note:'transfert ferme'},
-  {n:'Bakwa', wage:4.5, fee:0, years:0, note:'prêt sec'},
-  {n:'Meïté (recrue)', wage:3, fee:0, years:0, note:'prêt + option d\'achat 20 M€ non levée'},
-  {n:'S. Coulibaly', wage:1.5, fee:0, years:0, note:'prêt sec'},
+  {n:'Facundo Medina',p:'DEF',club:'RC Lens',fee:'18 M€',why:'Arrivée éclair, revendu dans la foulée',real:true},
+  {n:'Timothy Weah',p:'ATT',club:'Juventus',fee:'14.4 M€',why:'Retour de Juventus',pic:'photos/om/timothy-weah.jpg',real:true},
+  {n:'Hamed Traoré',p:'MIL',club:'Bournemouth',fee:'7.7 M€',why:'Prêté à Genoa aussitôt arrivé',real:true},
+  {n:'Bulka',p:'INC',club:'Prêt',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — prêt sec'},
+  {n:'Défenseur inconnu',p:'DEF',club:'—',fee:'3 M€',wage:2,years:4,why:'Transfert ferme sur 4 ans'},
+  {n:'Bakwa',p:'INC',club:'Prêt',fee:'Prêt',wage:4.5,years:0,why:'Poste à confirmer — prêt sec'},
+  {n:'Meïté (recrue)',p:'INC',club:'Prêt + option 20 M€',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — option d\'achat non levée'},
+  {n:'S. Coulibaly',p:'INC',club:'Prêt',fee:'Prêt',wage:1.5,years:0,why:'Poste à confirmer — prêt sec'},
 ];
 function fantasyRecruitsImpact(){
   let wage=0, amort=0;
-  FANTASY_RECRUITS.forEach(r=>{ wage+=r.wage; if(r.years>0) amort+=r.fee/r.years; });
+  ARRIVALS.forEach(p=>{ if(p.wage!=null){ wage+=p.wage; if(p.years>0) amort+=parseFee(p.fee)/p.years; } });
   return {wage,amort};
 }
 
@@ -732,7 +729,7 @@ function renderBilanDetail(){
     .concat(outs.map(p=>`<div class="drow"><span>${p.n}</span><span class="val">${p.fee||'—'}</span></div>`));
   document.getElementById('bilanOutList').innerHTML = rows.length ? rows.join('') : '<div class="drow empty">aucun</div>';
   document.getElementById('bilanInList').innerHTML = ARRIVALS.length
-    ? ARRIVALS.map(p=>`<div class="drow"><span>${p.n} <span style="color:var(--muted);font-size:9.5px">réel</span></span><span class="val">${p.fee||'—'}</span></div>`).join('')
+    ? ARRIVALS.map(p=>`<div class="drow"><span>${p.n}${p.real?' <span style="color:var(--muted);font-size:9.5px">réel</span>':''}</span><span class="val">${p.fee||'—'}</span></div>`).join('')
     : '<div class="drow empty">aucune</div>';
 }
 function animateCount(el){
