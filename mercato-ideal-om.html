@@ -332,12 +332,13 @@ body::after{
 
   <section class="slide" data-title="Compo">
     <div class="section-head r" style="--d:0s"><h2 class="tanker">4-2-3-1</h2><p>Le onze idéal, arrivées comprises</p></div>
-    <div class="pitch-wrap">
+    <div style="display:flex;flex-direction:column;align-items:center;">
       <div class="pitch-box" id="pitchBox"></div>
-      <div class="pitch-side r" style="--d:.65s">
-        <div class="row"><b>Remplaçants</b>de Lange · Cornelius · Garcia · Nnadi · Abdelli · Harit · Mmadi · Bezahaf · Meïté (recrue) · Pape Diop</div>
+      <div class="pitch-side r" style="--d:.65s;max-width:560px;text-align:center;margin-top:20px;">
+        <div class="row"><b>Remplaçants</b>de Lange · Cornelius · Garcia · Nnadi · Abdelli · Harit · Mmadi · Bezahaf · Coulibaly · Versini · Meïté</div>
       </div>
     </div>
+    <div class="ctx-note r" style="--d:.8s">6 recrues + des jeunes qui auront faim</div>
   </section>
 
   <section class="slide" data-title="Chapitre 5">
@@ -456,11 +457,12 @@ const REAL_SALES=[
 /* arrivées : uniquement les recrues du mercato idéal (choix du user, 2026-08-12 — les vraies arrivées de l'été retirées, il s'en fout)
    wage/years présents = compté dans la masse salariale/amortissement de "Pour aller plus loin" ; prêt (years=0) = pas d'amortissement, que le salaire */
 const ARRIVALS=[
-  {n:'Bulka',p:'INC',club:'Prêt',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — prêt sec'},
-  {n:'Bakwa',p:'INC',club:'Prêt',fee:'Prêt',wage:4.5,years:0,why:'Poste à confirmer — prêt sec'},
-  {n:'Meïté',p:'INC',club:'Prêt + option 20 M€',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — option d\'achat non levée'},
-  {n:'S. Coulibaly',p:'INC',club:'Prêt',fee:'Prêt',wage:1.5,years:0,why:'Poste à confirmer — prêt sec'},
-  {n:'Pape Diop',p:'INC',club:'—',fee:'8 M€',wage:1.5,years:5,why:'Poste à confirmer — transfert ferme sur 5 ans'},
+  {n:'Marcin Bulka',p:'GK',club:'Neom',fee:'Prêt',wage:3,years:0,why:'Gardien numéro 1 en approche'},
+  {n:'Soumaila Coulibaly',p:'DEF',club:'Strasbourg',fee:'Prêt',wage:1.5,years:0,why:'Renfort en défense centrale',pic:'photos/recruits/coulibaly.jpg'},
+  {n:'Pape Demba Diop',p:'MIL',club:'Strasbourg',fee:'8 M€',wage:1.5,years:5,why:'Sentinelle devant la défense',pic:'photos/recruits/diop.jpg'},
+  {n:'Dilane Bakwa',p:'ATT',club:'Nottingham',fee:'Prêt',wage:4.5,years:0,why:'Vitesse et percussion sur l\'aile droite',pic:'photos/recruits/bakwa.jpg'},
+  {n:'Giovani Versini',p:'ATT',club:'Pau',fee:'5 M€',wage:1,years:5,why:'Jeune ailier à fort potentiel',pic:'photos/recruits/versini.jpg'},
+  {n:'Kader Meïté',p:'ATT',club:'Al Hilal',fee:'Prêt',wage:3,years:0,why:'Un buteur en pointe',pic:'photos/recruits/meite.jpg'},
 ];
 function fantasyRecruitsImpact(){
   let wage=0, amort=0;
@@ -574,7 +576,9 @@ const GAP_TEMPLATE=[
   {pos:'MIL',x:30,y:50},{pos:'MIL',x:50,y:45},{pos:'MIL',x:70,y:50},
   {pos:'ATT',x:20,y:20},{pos:'ATT',x:50,y:14},{pos:'ATT',x:80,y:20},
 ];
-let gapAssign=new Array(GAP_TEMPLATE.length).fill(null);
+/* état par défaut posé par le user (2026-08-12) — plus besoin de le refaire à chaque ouverture */
+const GAP_DEFAULT_NAMES=['','Emerson','Leonardo Balerdi','Bamo Meïté','Timothy Weah','Quinten Timber','Angel Gomes','','Igor Paixão','Amine Gouiri',''];
+let gapAssign=GAP_DEFAULT_NAMES.map(n=>n?SQUAD.find(p=>p.n===n):null);
 let gapSelected=null;
 function renderGapPitch(){
   const box=document.getElementById('gapPitchBox');
@@ -612,7 +616,7 @@ const pitchBox=document.getElementById('pitchBox');
 const FORMATION_4231=[
   {c:'gk',x:50,y:91,l:'Bulka'},
   {c:'',x:15,y:73,l:'Weah'},{c:'',x:38,y:76,l:'Meïté'},{c:'',x:62,y:76,l:'Balerdi'},{c:'',x:85,y:73,l:'Emerson'},
-  {c:'',x:35,y:54,l:'Coulibaly'},{c:'',x:65,y:54,l:'Timber'},
+  {c:'',x:35,y:54,l:'Diop'},{c:'',x:65,y:54,l:'Timber'},
   {c:'',x:20,y:30,l:'Gomes'},{c:'',x:50,y:26,l:'Bakwa'},{c:'',x:80,y:30,l:'Paixão'},
   {c:'',x:50,y:10,l:'Gouiri'},
 ];
@@ -656,7 +660,7 @@ function fmt1(n){ return Math.round(n*10)/10; }
 /* compte de résultat réel OM (source club, capture 2026-08) — postes fixes / à ne pas modifier sauf dit autrement */
 const NET_RESULT_BASE={
   droitsTV:40, sponsor:71.712, recettesMatch:40, autresProduits:60,
-  indemniteAgents:10, autresCharges:103.714,
+  indemniteAgents:10, autresCharges:90,
   resultatFinancier:-2.890, resultatExceptionnel:-1.657, impotSociete:-1.425,
 };
 /* tout le calcul financier réuni sur une seule slide : masse salariale, amortissements, squad cost ratio,
@@ -696,35 +700,34 @@ function renderResultSlide(){
   document.getElementById('projNet').dataset.target=resNet;
 
   document.getElementById('calcLeft').innerHTML=`
-    <div class="dh section">① Masse salariale</div>
+    <div class="dh section">Masse salariale</div>
     <div class="drow"><span>Effectif réel (squad-cost.html)</span><span class="val">${fmt1(FIN_BASE.wageTotal)} M€</span></div>
     <div class="drow"><span>− salaires des joueurs vendus</span><span class="val">− ${fmt1(wageOut)} M€</span></div>
     <div class="drow"><span>+ salaires des recrues</span><span class="val">+ ${fmt1(fr.wage)} M€</span></div>
     <div class="drow main"><span>= Masse salariale</span><span class="val">${fmt1(ms)} M€</span></div>
 
-    <div class="dh section">② Amortissements</div>
+    <div class="dh section">Amortissements</div>
     <div class="drow"><span>Effectif réel (squad-cost.html)</span><span class="val">${fmt1(FIN_BASE.amortTotal)} M€</span></div>
     <div class="drow"><span>− amort. des joueurs vendus</span><span class="val">− ${fmt1(amortOut)} M€</span></div>
     <div class="drow"><span>+ amort. des recrues (transferts fermes)</span><span class="val">+ ${fmt1(fr.amort)} M€</span></div>
     <div class="drow main"><span>= Amortissements</span><span class="val">${fmt1(amort)} M€</span></div>
 
-    <div class="dh section">③ Squad cost ratio (plafond UEFA/DNCG : 70 %)</div>
-    <div class="drow"><span>Numérateur = MS + amort. + agents (10 M€ fixe)</span><span class="val">${fmt1(numerator)} M€</span></div>
-    <div class="drow"><span>Dénominateur = produits estimés (200 M€) + mutation</span><span class="val">${fmt1(denominator)} M€</span></div>
+    <div class="dh section">Squad cost ratio (plafond UEFA/DNCG : 70 %)</div>
+    <div class="drow"><span>Numérateur = MS + amort. + agents</span><span class="val">${fmt1(numerator)} M€</span></div>
+    <div class="drow"><span>Dénominateur = produits estimés + mutation</span><span class="val">${fmt1(denominator)} M€</span></div>
     <div class="drow main"><span>= Squad cost ratio</span><span class="val">${pct.toLocaleString('fr-FR',{maximumFractionDigits:1})} %</span></div>`;
 
   document.getElementById('calcRight').innerHTML=`
-    <div class="dh section">④ Résultat des opérations de mutation</div>
+    <div class="dh section">Résultat des opérations de mutation</div>
     <div class="drow"><span>Déjà réalisé cet été (Greenwood, Aubameyang, Medina, Rulli)</span><span class="val">${fmt1(FIN_BASE.resultatTradingEte)} M€</span></div>
     <div class="drow"><span>+ plus-value sur tes départs choisis</span><span class="val">${cgFantasy>=0?'+':''}${fmt1(cgFantasy)} M€</span></div>
     <div class="drow main"><span>= Résultat des opérations de mutation</span><span class="val">${fmt1(resultatMutation)} M€</span></div>
 
-    <div class="dh section">⑤ Résultat net estimé (compte de résultat)</div>
-    <div class="drow"><span>Produits (TV, sponsors, billetterie, autres — fixes)</span><span class="val">${fmt1(produits)} M€</span></div>
+    <div class="dh section">Résultat net estimé (compte de résultat)</div>
+    <div class="drow"><span>Produits (TV, sponsors, billetterie, autres)</span><span class="val">${fmt1(produits)} M€</span></div>
     <div class="drow"><span>− charges (MS + amort. + agents + autres charges)</span><span class="val">− ${fmt1(charges)} M€</span></div>
     <div class="drow main"><span>= Résultat hors mutation</span><span class="val">${fmt1(resHorsMutation)} M€</span></div>
-    <div class="drow"><span>+ résultat des opérations de mutation (④)</span><span class="val">${fmt1(resultatMutation)} M€</span></div>
-    <div class="drow"><span>+ financier + exceptionnel − impôt (fixes)</span><span class="val">${fmt1(NET_RESULT_BASE.resultatFinancier+NET_RESULT_BASE.resultatExceptionnel+NET_RESULT_BASE.impotSociete)} M€</span></div>
+    <div class="drow"><span>+ résultat des opérations de mutation</span><span class="val">${fmt1(resultatMutation)} M€</span></div>
     <div class="drow main"><span>= Résultat net estimé</span><span class="val">${fmt1(resNet)} M€</span></div>
     ${unknownCount?`<div class="drow empty" style="font-size:10px">${unknownCount} départ(s) sans donnée financière non compté(s)</div>`:''}`;
 }
