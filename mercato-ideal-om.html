@@ -458,6 +458,21 @@ const ARRIVALS=[
   {n:'Hamed Traoré',p:'MIL',club:'Bournemouth',fee:'7.7 M€',why:'Prêté à Genoa aussitôt arrivé'},
 ];
 
+/* recrues envisagées pour le mercato idéal (hypothèses financières du user, discutées en chat le 2026-08-12) —
+   prêt sec = pas d'amortissement, seul le salaire compte ; prêt + option d'achat non levée = pareil ; Gourna retiré (parti ailleurs) */
+const FANTASY_RECRUITS=[
+  {n:'Bulka', wage:3, fee:0, years:0, note:'prêt sec'},
+  {n:'Défenseur inconnu', wage:2, fee:3, years:4, note:'transfert ferme'},
+  {n:'Bakwa', wage:4.5, fee:0, years:0, note:'prêt sec'},
+  {n:'Meïté (recrue)', wage:3, fee:0, years:0, note:'prêt + option d\'achat 20 M€ non levée'},
+  {n:'S. Coulibaly', wage:1.5, fee:0, years:0, note:'prêt sec'},
+];
+function fantasyRecruitsImpact(){
+  let wage=0, amort=0;
+  FANTASY_RECRUITS.forEach(r=>{ wage+=r.wage; if(r.years>0) amort+=r.fee/r.years; });
+  return {wage,amort};
+}
+
 /* ---- génération des slides individuelles d'arrivée (une par recrue, avant le récap) ---- */
 function revealSlideHTML(pl,i){
   return `<section class="slide" data-title="Arrivée ${i+1}">
@@ -678,8 +693,9 @@ function renderProjection(){
     if(fin){ wageOut+=fin.wage; amortOut+=fin.amort; cgFantasy+=fin.cg; }
     else unknownCount++;
   });
-  const ms=Math.max(0,FIN_BASE.wageTotal-wageOut);
-  const amort=FIN_BASE.amortTotal-amortOut;
+  const fr=fantasyRecruitsImpact();
+  const ms=Math.max(0,FIN_BASE.wageTotal-wageOut+fr.wage);
+  const amort=FIN_BASE.amortTotal-amortOut+fr.amort;
   const produits=NET_RESULT_BASE.droitsTV+NET_RESULT_BASE.sponsor+NET_RESULT_BASE.recettesMatch+NET_RESULT_BASE.autresProduits;
   const charges=ms+amort+NET_RESULT_BASE.indemniteAgents+NET_RESULT_BASE.autresCharges;
   const resHorsMutation=produits-charges;
