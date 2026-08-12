@@ -304,7 +304,7 @@ body::after{
     <div class="pitch-wrap">
       <div class="pitch-box" id="gapPitchBox"></div>
       <div class="pitch-side r" style="--d:.5s;max-width:240px">
-        <div class="row"><b>Disponibles</b></div>
+        <div class="row"><b>Remplaçants</b></div>
         <div class="triage-drop pool-drop" id="gapAvail" style="min-height:40px"></div>
       </div>
     </div>
@@ -615,9 +615,9 @@ function renderGapPitch(){
 const pitchBox=document.getElementById('pitchBox');
 const FORMATION_4231=[
   {c:'gk',x:50,y:91,l:'Bulka'},
-  {c:'',x:15,y:73,l:'Weah'},{c:'',x:38,y:76,l:'Meïté'},{c:'',x:62,y:76,l:'Balerdi'},{c:'',x:85,y:73,l:'Emerson'},
-  {c:'',x:35,y:54,l:'Diop'},{c:'',x:65,y:54,l:'Timber'},
-  {c:'',x:20,y:30,l:'Gomes'},{c:'',x:50,y:26,l:'Bakwa'},{c:'',x:80,y:30,l:'Paixão'},
+  {c:'',x:15,y:73,l:'Emerson'},{c:'',x:38,y:76,l:'Balerdi'},{c:'',x:62,y:76,l:'Meïté'},{c:'',x:85,y:73,l:'Weah'},
+  {c:'',x:35,y:54,l:'Timber'},{c:'',x:65,y:54,l:'Diop'},
+  {c:'',x:20,y:30,l:'Paixão'},{c:'',x:50,y:26,l:'Gomes'},{c:'',x:80,y:30,l:'Bakwa'},
   {c:'',x:50,y:10,l:'Gouiri'},
 ];
 pitchBox.innerHTML=FORMATION_4231.map((p,i)=>{
