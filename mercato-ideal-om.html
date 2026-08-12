@@ -84,13 +84,13 @@ body::after{
 .section-head p{color:var(--sub);font-size:13px;margin-top:6px;}
 
 /* ---- contexte / KPI placeholder ---- */
-.ctx-list{display:flex;flex-direction:column;gap:10px;max-width:520px;width:100%;}
-.ctx-item{background:var(--s1);border:1px solid var(--line);border-radius:12px;padding:14px 18px;
-  display:flex;justify-content:space-between;align-items:center;gap:14px;}
-.ctx-item .lbl{font-size:13.5px;font-weight:700;}
-.ctx-item .status{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.08em;
-  text-transform:uppercase;border:1px dashed var(--line);padding:4px 10px;border-radius:20px;white-space:nowrap;}
-.ctx-item .status.filled{border-style:solid;text-transform:none;white-space:normal;text-align:right;}
+.ctx-list{display:flex;flex-direction:column;gap:16px;max-width:720px;width:100%;}
+.ctx-item{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:24px 30px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;}
+.ctx-item .lbl{font-size:22px;font-weight:800;}
+.ctx-item .status{font-family:var(--mono);font-size:15px;color:var(--muted);letter-spacing:.06em;
+  text-transform:uppercase;border:1px dashed var(--line);padding:8px 16px;border-radius:24px;white-space:nowrap;}
+.ctx-item .status.filled{border-style:solid;text-transform:none;white-space:normal;text-align:right;font-weight:700;}
 .ctx-item .status.filled.good{border-color:var(--in);color:var(--in);}
 .ctx-item .status.filled.info{border-color:var(--accent);color:var(--accent);}
 .ctx-note{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin-top:16px;letter-spacing:.04em;}
@@ -127,7 +127,7 @@ body::after{
 .triage-hint{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin-top:12px;letter-spacing:.04em;}
 
 /* ---- player card grid (départs / arrivées) ---- */
-.pcard-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:800px;}
+.pcard-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:flex-start;max-width:800px;}
 .pcard{width:172px;background:var(--s1);border:1px solid var(--line);border-radius:15px;overflow:hidden;}
 .pcard-photo{position:relative;height:170px;display:flex;align-items:center;justify-content:center;overflow:hidden;
   background:linear-gradient(160deg,var(--s2),var(--s3));}
@@ -327,15 +327,13 @@ body::after{
   </section>
 
   <section class="slide" data-title="Compo">
-    <div class="section-head r" style="--d:0s"><h2 class="tanker">4-2-3-1</h2><p>Le onze après les départs — les X marquent les postes à renforcer</p></div>
+    <div class="section-head r" style="--d:0s"><h2 class="tanker">4-2-3-1</h2><p>Le onze idéal, arrivées comprises</p></div>
     <div class="pitch-wrap">
       <div class="pitch-box" id="pitchBox"></div>
       <div class="pitch-side r" style="--d:.65s">
-        <div class="row"><b>Remplaçants</b>de Lange · Cornelius · Garcia · Nnadi · Abdelli · Harit · Moumbagna · Mmadi · Bezahaf</div>
-        <div class="row"><b>Sur le banc aussi</b><span style="color:var(--muted)">X — place libre</span></div>
+        <div class="row"><b>Remplaçants</b>de Lange · Cornelius · Garcia · Nnadi · Abdelli · Harit · Mmadi · Bezahaf · Meïté (recrue) · Pape Diop</div>
       </div>
     </div>
-    <div class="ctx-item r" style="--d:.8s;margin-top:18px;max-width:420px"><span class="lbl">Renfort prévu</span><span class="status">4 recrues + 3 jeunes qui ont faim</span></div>
   </section>
 
   <section class="slide" data-title="Chapitre 5">
@@ -358,10 +356,10 @@ body::after{
   </section>
 
   <section class="slide" data-title="Verif KPI">
-    <div class="section-head r" style="--d:0s"><h2 class="tanker">Vérification des KPI</h2><p>Chiffres réels, source landing OM (squad-cost.html)</p></div>
+    <div class="section-head r" style="--d:0s"><h2 class="tanker">Vérification des KPI</h2><p>Mis à jour selon les départs et recrues de ce mercato idéal</p></div>
     <div class="kpi-grid">
-      <div class="kpi-card r" style="--d:.08s"><div class="k">Masse salariale</div><div class="v" id="kpiMs">— M€</div><div class="note" id="kpiMsNote"></div></div>
-      <div class="kpi-card r" style="--d:.16s"><div class="k">Résultat du trading</div><div class="v" id="kpiTrade">— M€</div><div class="note" id="kpiTradeNote"></div></div>
+      <div class="kpi-card r" style="--d:.08s"><div class="k">Masse salariale</div><div class="v" id="kpiMs">— M€</div></div>
+      <div class="kpi-card r" style="--d:.16s"><div class="k">Résultat des opérations de mutation</div><div class="v" id="kpiTrade">— M€</div></div>
       <div class="kpi-card r" id="kpiRatioCard" style="--d:.24s"><div class="k">Squad cost ratio</div><div class="v" id="kpiRatio">— %</div><div class="note" id="kpiRatioNote"></div></div>
     </div>
   </section>
@@ -458,9 +456,8 @@ const REAL_SALES=[
    wage/years présents = compté dans la masse salariale/amortissement de "Pour aller plus loin" ; prêt (years=0) = pas d'amortissement, que le salaire */
 const ARRIVALS=[
   {n:'Bulka',p:'INC',club:'Prêt',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — prêt sec'},
-  {n:'Défenseur inconnu',p:'DEF',club:'—',fee:'3 M€',wage:2,years:4,why:'Transfert ferme sur 4 ans'},
   {n:'Bakwa',p:'INC',club:'Prêt',fee:'Prêt',wage:4.5,years:0,why:'Poste à confirmer — prêt sec'},
-  {n:'Meïté (recrue)',p:'INC',club:'Prêt + option 20 M€',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — option d\'achat non levée'},
+  {n:'Meïté',p:'INC',club:'Prêt + option 20 M€',fee:'Prêt',wage:3,years:0,why:'Poste à confirmer — option d\'achat non levée'},
   {n:'S. Coulibaly',p:'INC',club:'Prêt',fee:'Prêt',wage:1.5,years:0,why:'Poste à confirmer — prêt sec'},
   {n:'Pape Diop',p:'INC',club:'—',fee:'8 M€',wage:1.5,years:5,why:'Poste à confirmer — transfert ferme sur 5 ans'},
 ];
@@ -609,13 +606,13 @@ function renderGapPitch(){
   });
 }
 
-/* ---- terrain (compo finale) : 4-2-3-1, X = poste à renforcer ---- */
+/* ---- terrain (compo finale) : 4-2-3-1, arrivées comprises — plus de trous, ceux-ci sont sur la slide "Où sont les trous ?" (avant les arrivées) ---- */
 const pitchBox=document.getElementById('pitchBox');
 const FORMATION_4231=[
-  {c:'gk empty',x:50,y:91,l:'X'},
+  {c:'gk',x:50,y:91,l:'Bulka'},
   {c:'',x:15,y:73,l:'Weah'},{c:'',x:38,y:76,l:'Meïté'},{c:'',x:62,y:76,l:'Balerdi'},{c:'',x:85,y:73,l:'Emerson'},
-  {c:'empty',x:35,y:54,l:'X'},{c:'',x:65,y:54,l:'Timber'},
-  {c:'',x:20,y:30,l:'Gomes'},{c:'empty',x:50,y:26,l:'X'},{c:'',x:80,y:30,l:'Paixão'},
+  {c:'',x:35,y:54,l:'Coulibaly'},{c:'',x:65,y:54,l:'Timber'},
+  {c:'',x:20,y:30,l:'Gomes'},{c:'',x:50,y:26,l:'Bakwa'},{c:'',x:80,y:30,l:'Paixão'},
   {c:'',x:50,y:10,l:'Gouiri'},
 ];
 pitchBox.innerHTML=FORMATION_4231.map((p,i)=>{
@@ -652,18 +649,25 @@ const FIN_IMPACT={
   'Jeffrey de Lange':{wage:1.365,amort:0.667,cg:1.833},
   'Jelle Van Neck':{wage:0.405,amort:0,cg:0},
 };
-/* KPI réels — chiffres directs de squad-cost.html, pas de recalcul maison */
+/* KPI dynamiques — base réelle squad-cost.html, ajustée selon les départs choisis (FIN_IMPACT) et les recrues (fantasyRecruitsImpact) */
 function renderKPI(){
-  const numerator=FIN_BASE.wageTotal+FIN_BASE.amortTotal+FIN_BASE.agentFees;
-  const denominator=FIN_BASE.produitsEstimes+FIN_BASE.resultatTradingEte;
+  const departed=SQUAD.filter(p=>p.cat==='out');
+  let wageOut=0,amortOut=0,cgFantasy=0;
+  departed.forEach(p=>{
+    const fin=FIN_IMPACT[p.n];
+    if(fin){ wageOut+=fin.wage; amortOut+=fin.amort; cgFantasy+=fin.cg; }
+  });
+  const fr=fantasyRecruitsImpact();
+  const ms=Math.max(0,FIN_BASE.wageTotal-wageOut+fr.wage);
+  const amort=FIN_BASE.amortTotal-amortOut+fr.amort;
+  const resultatMutation=FIN_BASE.resultatTradingEte+cgFantasy;
+  const numerator=ms+amort+FIN_BASE.agentFees;
+  const denominator=FIN_BASE.produitsEstimes+resultatMutation;
   const ratio=numerator/denominator;
   const pct=Math.round(ratio*1000)/10;
 
-  document.getElementById('kpiMs').textContent=fmt1(FIN_BASE.wageTotal)+' M€';
-  document.getElementById('kpiMsNote').textContent='Effectif réel actuel (squad-cost.html)';
-
-  document.getElementById('kpiTrade').textContent=fmt1(FIN_BASE.resultatTradingEte)+' M€';
-  document.getElementById('kpiTradeNote').textContent='Ventes déjà réalisées (Greenwood, Aubameyang, Medina, Rulli)';
+  document.getElementById('kpiMs').textContent=fmt1(ms)+' M€';
+  document.getElementById('kpiTrade').textContent=fmt1(resultatMutation)+' M€';
 
   document.getElementById('kpiRatio').textContent=pct.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
   const status=pct<=70?'good':pct<=85?'warning':'critical';
