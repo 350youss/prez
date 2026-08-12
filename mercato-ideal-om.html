@@ -661,7 +661,7 @@ function fmt1(n){ return Math.round(n*10)/10; }
 const NET_RESULT_BASE={
   droitsTV:40, sponsor:71.712, recettesMatch:40, autresProduits:60,
   indemniteAgents:10, autresCharges:90,
-  resultatFinancier:-2.890, resultatExceptionnel:-1.657, impotSociete:-1.425,
+  resultatFinancier:-2.890, resultatExceptionnel:-1.657,
 };
 /* tout le calcul financier réuni sur une seule slide : masse salariale, amortissements, squad cost ratio,
    résultat des opérations de mutation et résultat net — chaque étape est détaillée pour être compréhensible */
@@ -687,7 +687,7 @@ function renderResultSlide(){
   const charges=ms+amort+NET_RESULT_BASE.indemniteAgents+NET_RESULT_BASE.autresCharges;
   const resHorsMutation=produits-charges;
   const resAvantImpot=resHorsMutation+resultatMutation+NET_RESULT_BASE.resultatFinancier+NET_RESULT_BASE.resultatExceptionnel;
-  const resNet=resAvantImpot+NET_RESULT_BASE.impotSociete;
+  const resNet=resAvantImpot;
 
   document.getElementById('kpiMs').textContent=fmt1(ms)+' M€';
   document.getElementById('kpiTrade').textContent=fmt1(resultatMutation)+' M€';
