@@ -366,7 +366,7 @@ body::after{
       <div class="kpi-card r" style="--d:.05s"><div class="k">Masse salariale</div><div class="v" id="kpiMs">— M€</div></div>
       <div class="kpi-card r" style="--d:.1s"><div class="k">Opérations de mutation</div><div class="v" id="kpiTrade">— M€</div></div>
       <div class="kpi-card r" id="kpiRatioCard" style="--d:.15s"><div class="k">Squad cost ratio</div><div class="v" id="kpiRatio">— %</div><div class="note" id="kpiRatioNote"></div></div>
-      <div class="kpi-card net r" style="--d:.2s"><div class="k">Résultat net estimé</div><div class="v" id="projNet" data-target="0">0 M€</div></div>
+      <div class="kpi-card net r" style="--d:.2s"><div class="k">Résultat net avant impôts</div><div class="v" id="projNet" data-target="0">0 M€</div></div>
     </div>
     <div class="detail-grid r" style="--d:.3s;max-width:900px">
       <div class="detail-panel" id="calcLeft"></div>
@@ -723,12 +723,12 @@ function renderResultSlide(){
     <div class="drow"><span>+ plus-value sur tes départs choisis</span><span class="val">${cgFantasy>=0?'+':''}${fmt1(cgFantasy)} M€</span></div>
     <div class="drow main"><span>= Résultat des opérations de mutation</span><span class="val">${fmt1(resultatMutation)} M€</span></div>
 
-    <div class="dh section">Résultat net estimé (compte de résultat)</div>
+    <div class="dh section">Résultat net avant impôts (compte de résultat)</div>
     <div class="drow"><span>Produits (TV, sponsors, billetterie, autres)</span><span class="val">${fmt1(produits)} M€</span></div>
     <div class="drow"><span>− charges (MS + amort. + agents + autres charges)</span><span class="val">− ${fmt1(charges)} M€</span></div>
     <div class="drow main"><span>= Résultat hors mutation</span><span class="val">${fmt1(resHorsMutation)} M€</span></div>
     <div class="drow"><span>+ résultat des opérations de mutation</span><span class="val">${fmt1(resultatMutation)} M€</span></div>
-    <div class="drow main"><span>= Résultat net estimé</span><span class="val">${fmt1(resNet)} M€</span></div>
+    <div class="drow main"><span>= Résultat net avant impôts</span><span class="val">${fmt1(resNet)} M€</span></div>
     ${unknownCount?`<div class="drow empty" style="font-size:10px">${unknownCount} départ(s) sans donnée financière non compté(s)</div>`:''}`;
 }
 
