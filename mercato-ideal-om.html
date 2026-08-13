@@ -83,6 +83,17 @@ body::after{
 .section-head h2{font-size:clamp(24px,4vw,38px);}
 .section-head p{color:var(--sub);font-size:13px;margin-top:6px;}
 
+/* ---- divider subtitle ---- */
+.div-sub{margin-top:14px;font-size:15px;color:var(--sub);text-align:center;letter-spacing:.02em;}
+.hl{color:var(--gold);font-weight:800;}
+
+/* ---- slide éditoriale (contexte sportif) ---- */
+.callout{font-family:'Tanker',sans-serif;font-size:clamp(19px,2.6vw,26px);text-align:center;max-width:700px;
+  line-height:1.35;margin:22px 0;letter-spacing:.01em;text-transform:uppercase;}
+.punch-list{display:flex;flex-direction:column;gap:12px;max-width:640px;width:100%;}
+.punch-item{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:16px 24px;
+  font-size:15.5px;font-weight:700;text-align:center;}
+
 /* ---- contexte / KPI placeholder ---- */
 .ctx-list{display:flex;flex-direction:column;gap:16px;max-width:720px;width:100%;}
 .ctx-item{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:24px 30px;
@@ -263,6 +274,18 @@ body::after{
     </div>
   </section>
 
+  <section class="slide" data-title="Rajeunir">
+    <div class="punch-list">
+      <div class="punch-item r" style="--d:.05s">Saison dernière, 2<sup>e</sup> effectif le plus âgé de L1</div>
+    </div>
+    <p class="callout r" style="--d:.16s">L'expérience n'est pas une garantie sportive même dans le <span class="hl">« CONTEXTE »</span> marseillais</p>
+    <div class="punch-list">
+      <div class="punch-item r" style="--d:.26s"><span class="hl">RAFRAICHISSONS</span> et <span class="hl">RAJEUNISSONS</span> (bordel)</div>
+      <div class="punch-item r" style="--d:.34s">Ce n'est pas + une garantie de performance mais...</div>
+      <div class="punch-item r" style="--d:.42s">Une <span class="hl">GARANTIE</span> de mieux anticiper les intersaisons en créant de la <span class="hl">VALEUR</span></div>
+    </div>
+  </section>
+
   <section class="slide" data-title="Chapitre 1">
     <div class="div-num r pop" style="--d:0s">01</div>
     <h2 class="tanker div-title r" style="--d:.1s">L'effectif conservé</h2>
@@ -314,6 +337,7 @@ body::after{
     <div class="div-num r pop" style="--d:0s">03</div>
     <h2 class="tanker div-title r" style="--d:.1s">Les arrivées</h2>
     <div class="div-line r" style="--d:.26s"></div>
+    <p class="div-sub r" style="--d:.34s">Créer de la <span class="hl">VALEUR</span> tant bien que mal</p>
   </section>
 
   <div id="arriveRevealSlot"></div>
@@ -321,7 +345,6 @@ body::after{
   <section class="slide" data-title="Arrivées">
     <div class="section-head r" style="--d:0s"><h2 class="tanker">Les arrivées</h2><p>Recrues du mercato idéal</p></div>
     <div class="pcard-grid" id="arriveGrid"></div>
-    <div class="triage-hint">clique sur « provenance » ou « prix » pour éditer en direct</div>
   </section>
 
   <section class="slide" data-title="Chapitre 4">
@@ -457,12 +480,12 @@ const REAL_SALES=[
 /* arrivées : uniquement les recrues du mercato idéal (choix du user, 2026-08-12 — les vraies arrivées de l'été retirées, il s'en fout)
    wage/years présents = compté dans la masse salariale/amortissement de "Pour aller plus loin" ; prêt (years=0) = pas d'amortissement, que le salaire */
 const ARRIVALS=[
-  {n:'Marcin Bulka',p:'GK',club:'Neom',fee:'Prêt',wage:3,years:0,why:'Gardien numéro 1 en approche',pic:'photos/recruits/bulka.jpg'},
-  {n:'Soumaila Coulibaly',p:'DEF',club:'Strasbourg',fee:'Prêt',wage:1.5,years:0,why:'Renfort en défense centrale',pic:'photos/recruits/coulibaly.jpg'},
-  {n:'Pape Demba Diop',p:'MIL',club:'Strasbourg',fee:'8 M€',wage:1.5,years:5,why:'Sentinelle devant la défense',pic:'photos/recruits/diop.jpg'},
-  {n:'Dilane Bakwa',p:'ATT',club:'Nottingham',fee:'Prêt',wage:4.5,years:0,why:'Vitesse et percussion sur l\'aile droite',pic:'photos/recruits/bakwa.jpg'},
-  {n:'Giovani Versini',p:'ATT',club:'Pau',fee:'5 M€',wage:1,years:5,why:'Jeune ailier à fort potentiel',pic:'photos/recruits/versini.jpg'},
-  {n:'Kader Meïté',p:'ATT',club:'Al Hilal',fee:'Prêt',wage:3,years:0,why:'Un buteur en pointe',pic:'photos/recruits/meite.jpg'},
+  {n:'Marcin Bulka',p:'GK',club:'Neom',fee:'Prêt sec',wage:3,years:0,pic:'photos/recruits/bulka.jpg'},
+  {n:'Soumaila Coulibaly',p:'DEF',club:'Strasbourg',fee:'Prêt avec OA',wage:1.5,years:0,pic:'photos/recruits/coulibaly.jpg'},
+  {n:'Pape Demba Diop',p:'MIL',club:'Strasbourg',fee:'8 M€',wage:1.5,years:5,pic:'photos/recruits/diop.jpg'},
+  {n:'Dilane Bakwa',p:'ATT',club:'Nottingham',fee:'Prêt sec',wage:4.5,years:0,pic:'photos/recruits/bakwa.jpg'},
+  {n:'Kader Meïté',p:'ATT',club:'Al Hilal',fee:'Prêt avec OA',wage:3,years:0,pic:'photos/recruits/meite.jpg'},
+  {n:'Giovani Versini',p:'ATT',club:'Pau',fee:'5 M€',wage:1,years:5,pic:'photos/recruits/versini.jpg'},
 ];
 function fantasyRecruitsImpact(){
   let wage=0, amort=0;
@@ -474,8 +497,7 @@ function fantasyRecruitsImpact(){
 function revealSlideHTML(pl,i){
   return `<section class="slide" data-title="Arrivée ${i+1}">
     <div class="reveal">
-      <div class="reveal-why r" style="--d:0s">${pl.why?('« '+pl.why+' »'):''}</div>
-      <div class="reveal-card r pop" style="--d:.12s">
+      <div class="reveal-card r pop" style="--d:0s">
         <div class="reveal-photo">
           ${pcardPhoto(pl)}
           <div class="pcard-pos ${posClass(pl.p)}">${pl.p}</div>
@@ -539,8 +561,8 @@ function pcardHTML(pl,kind,dataI,stagger){
         <div class="pcard-info-col price"><div class="lb">Prix</div><div class="val" contenteditable="true" spellcheck="false" data-field="fee" data-kind="out" data-i="${dataI}">${feeVal}</div></div>
       </div>`
     : `<div class="pcard-info">
-        <div class="pcard-info-col"><div class="lb">Provenance</div><div class="val" contenteditable="true" spellcheck="false" data-field="club" data-kind="in" data-i="${dataI}">${pl.club||'—'}</div></div>
-        <div class="pcard-info-col price"><div class="lb">Prix</div><div class="val" contenteditable="true" spellcheck="false" data-field="fee" data-kind="in" data-i="${dataI}">${feeVal}</div></div>
+        <div class="pcard-info-col"><div class="lb">Provenance</div><div class="val">${pl.club||'—'}</div></div>
+        <div class="pcard-info-col price"><div class="lb">Prix</div><div class="val">${feeVal}</div></div>
       </div>`;
   return `<div class="pcard r" style="--d:${stagger*0.07}s">
     <div class="pcard-photo">
@@ -614,16 +636,16 @@ function renderGapPitch(){
 /* ---- terrain (compo finale) : 4-2-3-1, arrivées comprises — plus de trous, ceux-ci sont sur la slide "Où sont les trous ?" (avant les arrivées) ---- */
 const pitchBox=document.getElementById('pitchBox');
 const FORMATION_4231=[
-  {c:'gk',x:50,y:91,l:'Bulka'},
-  {c:'',x:15,y:73,l:'Emerson'},{c:'',x:38,y:76,l:'Balerdi'},{c:'',x:62,y:76,l:'Meïté'},{c:'',x:85,y:73,l:'Weah'},
-  {c:'',x:35,y:54,l:'Timber'},{c:'',x:65,y:54,l:'Diop'},
-  {c:'',x:20,y:30,l:'Paixão'},{c:'',x:50,y:26,l:'Gomes'},{c:'',x:80,y:30,l:'Bakwa'},
-  {c:'',x:50,y:10,l:'Gouiri'},
+  {c:'gk',x:50,y:91,l:'Bulka',pos:'GK'},
+  {c:'',x:15,y:73,l:'Emerson',pos:'DEF'},{c:'',x:38,y:76,l:'Balerdi',pos:'DEF'},{c:'',x:62,y:76,l:'Meïté',pos:'DEF'},{c:'',x:85,y:73,l:'Weah',pos:'DEF'},
+  {c:'',x:35,y:54,l:'Timber',pos:'MIL'},{c:'',x:65,y:54,l:'Diop',pos:'MIL'},
+  {c:'',x:20,y:30,l:'Paixão',pos:'MIL'},{c:'',x:50,y:26,l:'Gomes',pos:'MIL'},{c:'',x:80,y:30,l:'Bakwa',pos:'MIL'},
+  {c:'',x:50,y:10,l:'Gouiri',pos:'ATT'},
 ];
 pitchBox.innerHTML=FORMATION_4231.map((p,i)=>{
   const isEmpty=p.c.includes('empty');
   return `<div class="slot ${p.c} r pop" style="left:${p.x}%;top:${p.y}%;--d:${i*0.07}s">
-    <div class="disc">${isEmpty?'X':p.l[0]}</div>
+    <div class="disc" style="font-size:9px">${isEmpty?'X':p.pos}</div>
     <div class="lbl">${isEmpty?'manque':p.l}</div>
   </div>`;
 }).join('');
