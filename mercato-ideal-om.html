@@ -87,17 +87,11 @@ body::after{
 .div-sub{margin-top:14px;font-size:15px;color:var(--sub);text-align:center;letter-spacing:.02em;}
 .hl{color:var(--gold);font-weight:800;}
 
-/* ---- slide éditoriale (contexte sportif) ---- */
-.callout{font-family:'Tanker',sans-serif;font-size:clamp(19px,2.6vw,26px);text-align:center;max-width:700px;
-  line-height:1.35;margin:22px 0;letter-spacing:.01em;text-transform:uppercase;}
-.punch-list{display:flex;flex-direction:column;gap:12px;max-width:640px;width:100%;}
-.punch-item{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:16px 24px;
-  font-size:15.5px;font-weight:700;text-align:center;}
-
 /* ---- contexte / KPI placeholder ---- */
 .ctx-list{display:flex;flex-direction:column;gap:16px;max-width:720px;width:100%;}
 .ctx-item{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:24px 30px;
   display:flex;justify-content:space-between;align-items:center;gap:20px;}
+.ctx-item.center{justify-content:center;text-align:center;}
 .ctx-item .lbl{font-size:22px;font-weight:800;}
 .ctx-item .status{font-family:var(--mono);font-size:15px;color:var(--muted);letter-spacing:.06em;
   text-transform:uppercase;border:1px dashed var(--line);padding:8px 16px;border-radius:24px;white-space:nowrap;}
@@ -208,6 +202,7 @@ body::after{
 .disc{width:32px;height:32px;border-radius:50%;background:var(--s1);border:2px solid var(--accent);
   display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:11px;box-shadow:0 3px 10px rgba(0,0,0,.4);}
 .slot.gk .disc{border-color:var(--gold);}
+.slot.recruit .disc{border-color:var(--gold);color:var(--gold);}
 .slot.empty .disc{border-style:dashed;border-color:var(--muted);background:transparent;color:var(--muted);font-size:8px;}
 .slot.empty .lbl{color:var(--muted);}
 .slot.empty.selected .disc{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px rgba(91,143,239,.25);}
@@ -274,18 +269,6 @@ body::after{
     </div>
   </section>
 
-  <section class="slide" data-title="Rajeunir">
-    <div class="punch-list">
-      <div class="punch-item r" style="--d:.05s">Saison dernière, 2<sup>e</sup> effectif le plus âgé de L1</div>
-    </div>
-    <p class="callout r" style="--d:.16s">L'expérience n'est pas une garantie sportive même dans le <span class="hl">« CONTEXTE »</span> marseillais</p>
-    <div class="punch-list">
-      <div class="punch-item r" style="--d:.26s"><span class="hl">RAFRAICHISSONS</span> et <span class="hl">RAJEUNISSONS</span> (bordel)</div>
-      <div class="punch-item r" style="--d:.34s">Ce n'est pas + une garantie de performance mais...</div>
-      <div class="punch-item r" style="--d:.42s">Une <span class="hl">GARANTIE</span> de mieux anticiper les intersaisons en créant de la <span class="hl">VALEUR</span></div>
-    </div>
-  </section>
-
   <section class="slide" data-title="Chapitre 1">
     <div class="div-num r pop" style="--d:0s">01</div>
     <h2 class="tanker div-title r" style="--d:.1s">L'effectif conservé</h2>
@@ -340,6 +323,16 @@ body::after{
     <p class="div-sub r" style="--d:.34s">Créer de la <span class="hl">VALEUR</span> tant bien que mal</p>
   </section>
 
+  <section class="slide" data-title="Rajeunir">
+    <div class="section-head r" style="--d:0s"><h2 class="tanker">Saison 2025/2026</h2></div>
+    <div class="ctx-list" style="max-width:640px">
+      <div class="ctx-item center r" style="--d:.14s"><span class="lbl">Apologie de l'expérience</span></div>
+      <div class="ctx-item center r" style="--d:.22s"><span class="lbl">Plus grosse masse salariale de l'histoire du championnat hors QSI</span></div>
+      <div class="ctx-item center r" style="--d:.3s"><span class="lbl">2<sup>e</sup> effectif le plus âgé de L1</span></div>
+    </div>
+    <p class="div-sub r" style="--d:.44s;font-size:17px;max-width:520px">Il est <span class="hl">ESSENTIEL</span> de rafraîchir et rajeunir <span class="hl">TOUT ÇA</span></p>
+  </section>
+
   <div id="arriveRevealSlot"></div>
 
   <section class="slide" data-title="Arrivées">
@@ -354,7 +347,7 @@ body::after{
   </section>
 
   <section class="slide" data-title="Compo">
-    <div class="section-head r" style="--d:0s"><h2 class="tanker">4-2-3-1</h2><p>Le onze idéal, arrivées comprises</p></div>
+    <div class="section-head r" style="--d:0s"><h2 class="tanker">4-2-3-1</h2><p>Le onze idéal — <span class="hl">en gold</span>, les recrues</p></div>
     <div style="display:flex;flex-direction:column;align-items:center;">
       <div class="pitch-box" id="pitchBox"></div>
       <div class="pitch-side r" style="--d:.65s;max-width:560px;text-align:center;margin-top:20px;">
@@ -636,11 +629,11 @@ function renderGapPitch(){
 /* ---- terrain (compo finale) : 4-2-3-1, arrivées comprises — plus de trous, ceux-ci sont sur la slide "Où sont les trous ?" (avant les arrivées) ---- */
 const pitchBox=document.getElementById('pitchBox');
 const FORMATION_4231=[
-  {c:'gk',x:50,y:91,l:'Bulka',pos:'GK'},
-  {c:'',x:15,y:73,l:'Emerson',pos:'DEF'},{c:'',x:38,y:76,l:'Balerdi',pos:'DEF'},{c:'',x:62,y:76,l:'Meïté',pos:'DEF'},{c:'',x:85,y:73,l:'Weah',pos:'DEF'},
-  {c:'',x:35,y:54,l:'Timber',pos:'MIL'},{c:'',x:65,y:54,l:'Diop',pos:'MIL'},
-  {c:'',x:20,y:30,l:'Paixão',pos:'MIL'},{c:'',x:50,y:26,l:'Gomes',pos:'MIL'},{c:'',x:80,y:30,l:'Bakwa',pos:'MIL'},
-  {c:'',x:50,y:10,l:'Gouiri',pos:'ATT'},
+  {c:'gk recruit',x:50,y:91,l:'Bulka',pos:'GK'},
+  {c:'',x:15,y:73,l:'Emerson',pos:'DG'},{c:'',x:38,y:76,l:'Balerdi',pos:'DC'},{c:'',x:62,y:76,l:'Meïté',pos:'DC'},{c:'',x:85,y:73,l:'Weah',pos:'DD'},
+  {c:'',x:35,y:54,l:'Timber',pos:'MDC'},{c:'recruit',x:65,y:54,l:'Diop',pos:'MDC'},
+  {c:'',x:20,y:30,l:'Paixão',pos:'AG'},{c:'',x:50,y:26,l:'Gomes',pos:'MOC'},{c:'recruit',x:80,y:30,l:'Bakwa',pos:'AD'},
+  {c:'',x:50,y:10,l:'Gouiri',pos:'BU'},
 ];
 pitchBox.innerHTML=FORMATION_4231.map((p,i)=>{
   const isEmpty=p.c.includes('empty');
