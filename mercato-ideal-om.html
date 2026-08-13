@@ -95,6 +95,16 @@ body::after{
 .ctx-item .lbl{font-size:22px;font-weight:800;}
 .ctx-item .status{font-family:var(--mono);font-size:15px;color:var(--muted);letter-spacing:.06em;
   text-transform:uppercase;border:1px dashed var(--line);padding:8px 16px;border-radius:24px;white-space:nowrap;}
+
+.stamp-wrap{position:relative;}
+.stamp-phrase{position:absolute;left:50%;top:50%;width:88%;
+  transform:translate(-50%,-50%) rotate(-6deg) scale(.92);
+  background:var(--s2);border:2px solid var(--gold);border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);padding:22px 30px;text-align:center;
+  font-size:19px;font-weight:700;line-height:1.4;color:var(--txt);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s var(--ease),transform .4s var(--ease);z-index:5;}
+.stamp-phrase.show{opacity:1;transform:translate(-50%,-50%) rotate(-6deg) scale(1);}
 .ctx-item .status.filled{border-style:solid;text-transform:none;white-space:normal;text-align:right;font-weight:700;}
 .ctx-item .status.filled.good{border-color:var(--in);color:var(--in);}
 .ctx-item .status.filled.info{border-color:var(--accent);color:var(--accent);}
@@ -324,13 +334,18 @@ body::after{
   </section>
 
   <section class="slide" data-title="Rajeunir">
-    <div class="section-head r" style="--d:0s"><h2 class="tanker">Saison 2025/2026</h2></div>
-    <div class="ctx-list" style="max-width:640px">
-      <div class="ctx-item center r" style="--d:.14s"><span class="lbl">Apologie de l'expérience</span></div>
-      <div class="ctx-item center r" style="--d:.22s"><span class="lbl">Plus grosse masse salariale de l'histoire du championnat hors QSI</span></div>
-      <div class="ctx-item center r" style="--d:.3s"><span class="lbl">2<sup>e</sup> effectif le plus âgé de L1</span></div>
+    <div class="section-head r" style="--d:0s">
+      <h2 class="tanker">Saison <span class="hl">2025/2026</span></h2>
+      <div class="div-line r" style="--d:.08s;margin:8px auto 0"></div>
     </div>
-    <p class="div-sub r" style="--d:.44s;font-size:17px;max-width:520px">Il est <span class="hl">ESSENTIEL</span> de rafraîchir et rajeunir <span class="hl">TOUT ÇA</span></p>
+    <div class="stamp-wrap" style="max-width:640px">
+      <div class="ctx-list">
+        <div class="ctx-item center r" style="--d:.14s"><span class="lbl">Apologie de l'<span class="hl">expérience</span></span></div>
+        <div class="ctx-item center r" style="--d:.22s"><span class="lbl">Plus grosse <span class="hl">masse salariale</span> de l'histoire du championnat hors QSI</span></div>
+        <div class="ctx-item center r" style="--d:.3s"><span class="lbl"><span class="hl">2<sup>e</sup></span> effectif le plus âgé de L1</span></div>
+      </div>
+      <p id="rajeunirPhrase" class="stamp-phrase">Il est <span class="hl">ESSENTIEL</span> de rafraîchir et rajeunir <span class="hl">TOUT ÇA</span></p>
+    </div>
   </section>
 
   <div id="arriveRevealSlot"></div>
@@ -351,7 +366,7 @@ body::after{
     <div style="display:flex;flex-direction:column;align-items:center;">
       <div class="pitch-box" id="pitchBox"></div>
       <div class="pitch-side r" style="--d:.65s;max-width:560px;text-align:center;margin-top:20px;">
-        <div class="row"><b>Remplaçants</b>de Lange · Cornelius · Garcia · Nnadi · Abdelli · Harit · Mmadi · Bezahaf · Coulibaly · Versini · Meïté</div>
+        <div class="row"><b>Remplaçants</b>de Lange · Cornelius · Garcia · Nnadi · Abdelli · Harit · Mmadi · Bezahaf · <span class="hl">Coulibaly</span> · <span class="hl">Versini</span> · <span class="hl">Meïté</span></div>
       </div>
     </div>
     <div class="ctx-note r" style="--d:.8s">6 recrues + des jeunes qui auront faim</div>
@@ -587,9 +602,9 @@ document.addEventListener('blur',e=>{
 /* ---- état de l'effectif : où sont les trous — terrain éditable à la main (clique poste vide puis joueur) ---- */
 const GAP_TEMPLATE=[
   {pos:'GK',x:50,y:91},
-  {pos:'DEF',x:15,y:73},{pos:'DEF',x:38,y:76},{pos:'DEF',x:62,y:76},{pos:'DEF',x:85,y:73},
-  {pos:'MIL',x:30,y:50},{pos:'MIL',x:50,y:45},{pos:'MIL',x:70,y:50},
-  {pos:'ATT',x:20,y:20},{pos:'ATT',x:50,y:14},{pos:'ATT',x:80,y:20},
+  {pos:'DG',x:15,y:73},{pos:'DC',x:38,y:76},{pos:'DC',x:62,y:76},{pos:'DD',x:85,y:73},
+  {pos:'MDC',x:30,y:50},{pos:'MOC',x:50,y:45},{pos:'MDC',x:70,y:50},
+  {pos:'AG',x:20,y:20},{pos:'BU',x:50,y:14},{pos:'AD',x:80,y:20},
 ];
 /* état par défaut posé par le user (2026-08-12) — plus besoin de le refaire à chaque ouverture */
 const GAP_DEFAULT_NAMES=['','Emerson','Leonardo Balerdi','Bamo Meïté','Timothy Weah','Quinten Timber','Angel Gomes','','Igor Paixão','Amine Gouiri',''];
@@ -599,7 +614,7 @@ function renderGapPitch(){
   const box=document.getElementById('gapPitchBox');
   box.innerHTML=GAP_TEMPLATE.map((s,i)=>{
     const pl=gapAssign[i], gkCls=s.pos==='GK'?'gk':'';
-    if(pl) return `<div class="slot ${gkCls} r pop" data-i="${i}" style="left:${s.x}%;top:${s.y}%;--d:${i*0.05}s"><div class="disc">${pl.n[0]}</div><div class="lbl">${shortName(pl.n)}</div></div>`;
+    if(pl) return `<div class="slot ${gkCls} r pop" data-i="${i}" style="left:${s.x}%;top:${s.y}%;--d:${i*0.05}s"><div class="disc" style="font-size:9px">${s.pos}</div><div class="lbl">${shortName(pl.n)}</div></div>`;
     const selCls=gapSelected===i?'selected':'';
     return `<div class="slot empty ${gkCls} ${selCls} r pop" data-i="${i}" style="left:${s.x}%;top:${s.y}%;--d:${i*0.05}s"><div class="disc">${s.pos}</div><div class="lbl">${gapSelected===i?'choisis':'manque'}</div></div>`;
   }).join('');
@@ -796,14 +811,26 @@ function render(){
     el.style.animation='none'; void el.offsetWidth; el.style.animation='';
   });
   active.querySelectorAll('.v[data-target]').forEach(animateCount);
+  if(active.dataset.title!=='Rajeunir'){
+    const phrase=document.getElementById('rajeunirPhrase');
+    if(phrase) phrase.classList.remove('show');
+  }
 }
 function go(n){ idx=Math.min(total-1,Math.max(0,n)); render(); }
+function goNext(){
+  const cur=slides[idx];
+  if(cur && cur.dataset.title==='Rajeunir'){
+    const phrase=document.getElementById('rajeunirPhrase');
+    if(phrase && !phrase.classList.contains('show')){ phrase.classList.add('show'); return; }
+  }
+  go(idx+1);
+}
 
 document.getElementById('prevBtn').onclick=()=>go(idx-1);
-document.getElementById('nextBtn').onclick=()=>go(idx+1);
+document.getElementById('nextBtn').onclick=()=>goNext();
 window.addEventListener('keydown',e=>{
   if(document.activeElement && document.activeElement.isContentEditable) return;
-  if(e.key==='ArrowRight'||e.key===' ') go(idx+1);
+  if(e.key==='ArrowRight'||e.key===' ') goNext();
   if(e.key==='ArrowLeft') go(idx-1);
 });
 let tx=0;
@@ -811,7 +838,7 @@ window.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
 window.addEventListener('touchend',e=>{
   if(document.activeElement && document.activeElement.isContentEditable) return;
   const dx=e.changedTouches[0].clientX-tx;
-  if(Math.abs(dx)>50) go(idx+(dx<0?1:-1));
+  if(Math.abs(dx)>50){ if(dx<0) goNext(); else go(idx-1); }
 });
 
 render();
